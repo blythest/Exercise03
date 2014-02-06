@@ -14,30 +14,40 @@ def correct_num_inputs(operator, num_inputs):
 print "  Enter an equation -- operation followed by operands  delimit by spaces"
 
 keepGoing = True
-operand1 = 0
-operand2 = 0
+operand = [0,0]
 
 while keepGoing:
     prompt = raw_input("> ")
 
     print prompt  
 
-    # split input into words
-    words = prompt.split(" ")
-    operation = words[0]
+    # split input into elements
+    elements = prompt.split(" ")
+    operation = elements[0]
 
-    num_inputs = len(words)
-    print 'operation length is %d' % num_inputs
+    num_inputs = len(elements)
+#    print 'operation length is %d' % num_inputs
 
     if num_inputs == 1 and operation == 'Q':
         break
 
-    elif num_inputs == 2:
-        operand1 = int(words[1])
 
-    elif num_inputs == 3:
-        operand1 = int(words[1])
-        operand2 = int(words[2])
+    elif num_inputs == 2:
+        if elements[1].isdigit():
+            operand[0] = int(elements[1])
+        else:
+            print "Please enter only integers"
+
+    elif num_inputs == 3:  
+        if elements[1].isdigit():
+            operand[0] = int(elements[1])
+        else:
+            print "Please enter only integers"
+        
+        if elements[2].isdigit():
+            operand[1] = int(elements[2])
+        else:
+            print "Please enter only integers"
 
     else:
         print 'wrong # of inputs'
@@ -45,21 +55,21 @@ while keepGoing:
     if correct_num_inputs(operation, num_inputs):
 
         if operation == "+":   
-            print arithmetic.add(operand1, operand2)
+            print arithmetic.add(operand[0], operand[1])
         elif operation == "-":
-            print arithmetic.subtract(operand1, operand2)
+            print arithmetic.subtract(operand[0], operand[1])
         elif operation == "*":   
-            print arithmetic.multiply(operand1, operand2)
+            print arithmetic.multiply(operand[0], operand[1])
         elif operation == "/":
-            print arithmetic.divide(operand1, operand2)
+            print arithmetic.divide(operand[0], operand[1])
         elif operation == "pow":
-            print arithmetic.power(operand1, operand2)
+            print arithmetic.power(operand[0], operand[1])
         elif operation == "square":
-            print arithmetic.square(operand1)
+            print arithmetic.square(operand[0])
         elif operation == "cube":
-            print arithmetic.cube(operand1)
+            print arithmetic.cube(operand[0])
         elif operation == "%":
-            print arithmetic.mod(operand1, operand2)
+            print arithmetic.mod(operand[0], operand[1])
         else:
             print "Not yet implemented"
 
