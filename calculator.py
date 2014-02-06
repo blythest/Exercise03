@@ -11,6 +11,24 @@ def correct_num_inputs(operator, num_inputs):
         print "Wrong number of operands for %r" % operator
         return False
 
+def create_operand_array(elements):
+    operands_local = ["E","E"]
+    num_inputs = len(elements)
+    for i in range(1,num_inputs):
+        if elements[i].isdigit():
+            operands_local[i-1] = int(elements[i])
+    return operands_local
+    
+def valid_input(operands):
+    print len(operands)
+    for i in operands:
+        print i,operands[i-1]
+        if operands[i] == 'E':
+            return False
+        else:
+            return True
+
+
 print "  Enter an equation -- operation followed by operands  delimit by spaces"
 
 keepGoing = True
@@ -24,35 +42,12 @@ while keepGoing:
     # split input into elements
     elements = prompt.split(" ")
     operation = elements[0]
-
     num_inputs = len(elements)
-#    print 'operation length is %d' % num_inputs
-
-    if num_inputs == 1 and operation == 'Q':
-        break
+    operand = create_operand_array(elements)
+    print operand
 
 
-    elif num_inputs == 2:
-        if elements[1].isdigit():
-            operand[0] = int(elements[1])
-        else:
-            print "Please enter only integers"
-
-    elif num_inputs == 3:  
-        if elements[1].isdigit():
-            operand[0] = int(elements[1])
-        else:
-            print "Please enter only integers"
-        
-        if elements[2].isdigit():
-            operand[1] = int(elements[2])
-        else:
-            print "Please enter only integers"
-
-    else:
-        print 'wrong # of inputs'
-
-    if correct_num_inputs(operation, num_inputs):
+    if (correct_num_inputs(operation, num_inputs) and valid_input(operand)):
 
         if operation == "+":   
             print arithmetic.add(operand[0], operand[1])
@@ -72,6 +67,9 @@ while keepGoing:
             print arithmetic.mod(operand[0], operand[1])
         else:
             print "Not yet implemented"
+
+
+
 
 
 
