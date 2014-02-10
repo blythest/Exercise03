@@ -1,75 +1,74 @@
-#import sys
-#sys.path.append("/home/user/src/exercise03")
 import arithmetic
 
-def correct_num_inputs(operator, num_inputs):
-    if operator in ['+', '-', '/','%','pow','*'] and num_inputs == 3:
-        return True
-    elif operator in ["square","cube"] and num_inputs == 2:
-        return True
-    else:
-        print "Wrong number of operands for %r" % operator
-        return False
-
-def create_operand_array(elements):
-    operands_local = ["E","E"]
-    num_inputs = len(elements)
-    for i in range(1,num_inputs):
-        if elements[i].isdigit():
-            operands_local[i-1] = int(elements[i])
-    return operands_local
-    
-def valid_input(operands):
-    print len(operands)
-    for i in operands:
-        print i,operands[i-1]
-        if operands[i] == 'E':
-            return False
-        else:
-            return True
-
-
-print "  Enter an equation -- operation followed by operands  delimit by spaces"
-
 keepGoing = True
-operand = [0,0]
 
 while keepGoing:
-    prompt = raw_input("> ")
-
-    print prompt  
-
-    # split input into elements
+    print "Please enter a pre-fix equation using integers. "
+    
+    prompt = raw_input()
+    
     elements = prompt.split(" ")
+
     operation = elements[0]
-    num_inputs = len(elements)
-    operand = create_operand_array(elements)
-    print operand
 
+    double_ops = ["+","-","*","/","%","pow"]
+    single_ops = ["cube","square"]
+    
+    #Checking that the values are numbers in two value expresions
+    if operation in double_ops:
+        try:
+            int(elements[1])
+            int(elements[2])
+        except ValueError: 
+            print "Integers, please!"
+            continue
 
-    if (correct_num_inputs(operation, num_inputs) and valid_input(operand)):
+    #Checking that the value is a number in one value expressions
+    elif operation in single_ops:
+        try:
+            int(elements[1])
+        except ValueError:
+            print "Integers, please!"
+            continue
 
-        if operation == "+":   
-            print arithmetic.add(operand[0], operand[1])
-        elif operation == "-":
-            print arithmetic.subtract(operand[0], operand[1])
-        elif operation == "*":   
-            print arithmetic.multiply(operand[0], operand[1])
-        elif operation == "/":
-            print arithmetic.divide(operand[0], operand[1])
-        elif operation == "pow":
-            print arithmetic.power(operand[0], operand[1])
-        elif operation == "square":
-            print arithmetic.square(operand[0])
-        elif operation == "cube":
-            print arithmetic.cube(operand[0])
-        elif operation == "%":
-            print arithmetic.mod(operand[0], operand[1])
-        else:
-            print "Not yet implemented"
+    #Dealing with extra values for two value expressions
+    if operation in double_ops:
+        if len(elements) >= 4:
+            print "Expression takes only two values."
+            continue
 
+    #Dealing with extra values for one value expressions
+    if operation in single_ops: 
+        if len(elements) >= 3:
+          print "Expression takes one value."
+          continue
 
+    if operation == "q":
+        break
+    
+    elif operation == "+":
+        print arithmetic.add(int(elements[1]),int(elements[2]))
 
+    elif operation == "-":
+        print arithmetic.subtract(int(elements[1]),int(elements[2]))
+    
+    elif operation == "*":
+        print arithmetic.multiply(int(elements[1]),int(elements[2]))
 
+    elif operation == "/":
+        print arithmetic.divide(float(elements[1]),float(elements[2]))
 
+    elif operation == "%":
+        print arithmetic.mod(int(elements[1]),int(elements[2]))
 
+    elif operation == "square":
+        print arithmetic.square(int(elements[1]))
+
+    elif operation == "cube":
+        print arithmetic.cube(int(elements[1]))
+
+    elif operation == "pow":
+        print arithmetic.power(int(elements[1]),int(elements[2]))
+
+    else:
+         print "Invalid input."
